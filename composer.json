@@ -1,0 +1,28 @@
+{
+    "name": "php-strict/config",
+    "type": "library",
+    "description": ".",
+    "keywords": ["php","strict","config", "configuration"],
+    "homepage": "https://github.com/php-strict/config",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Enikeishik",
+            "email": "enikeishik@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "php-strict/struct": "dev-master"
+    },
+    "require-dev": {
+        "codeception/codeception": "^2.5.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpStrict\\Config\\": "src/",
+            "PhpStrict\\Config\\Examples\\": "examples/"
+        }
+    }
+}

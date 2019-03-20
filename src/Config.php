@@ -28,15 +28,18 @@ abstract class Config extends Struct implements ConfigInterface
     public function loadFromPhp(string $path, $overwrite = false): void
     {
         if (!file_exists($path)) {
-            throw new FileNotExistsException('File not ' . $path . ' exists');
+            throw new FileNotExistsException('File ' . $path . ' not exists');
         }
+        
         $config = include $path;
         if (!is_array($config) && !is_object($config)) {
             throw new BadConfigException();
         }
+        
         if (is_object($config)) {
             $config = get_object_vars($config);
         }
+        
         $this->loadArray($config, $overwrite);
     }
     
@@ -52,7 +55,7 @@ abstract class Config extends Struct implements ConfigInterface
     public function loadFromIni(string $path, bool $overwrite = false): void
     {
         if (!file_exists($path)) {
-            throw new FileNotExistsException('File not ' . $path . ' exists');
+            throw new FileNotExistsException('File ' . $path . ' not exists');
         }
         
         $arr = null;

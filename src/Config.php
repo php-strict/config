@@ -17,7 +17,39 @@ use \PhpStrict\Struct\Struct;
 abstract class Config extends Struct implements ConfigInterface
 {
     /**
+     * Loads configuration from file. Polymorphic behaviour depends on file extension.
+     * 
+     * @param string $path              path to file
+     * @param bool $overwrite = false   overwrite existings configuration entries
+     * 
+     * @throws \PhpStrict\Config\FileTypeNotSupportedException
+     * @throws \PhpStrict\Config\FileNotExistsException
+     * @throws \PhpStrict\Config\BadConfigException
+     */
+    public function loadFromFile(string $path, bool $overwrite = false): void
+    {
+        $ext = pathinfo($path, PATHINFO_EXTENSION);
+        
+        switch ($ext) {
+            case static::EXT_PHP:
+                $this->loadFromPhp($path, $overwrite);
+                break;
+            case static::EXT_INI:
+                $this->loadFromIni($path, $overwrite);
+                break;
+            case static::EXT_JSON:
+                $this->loadFromJson($path, $overwrite);
+                break;
+        }
+        
+        throw new FileTypeNotSupportedException('File ' . $path . ' type not supported');
+    }
+    
+    /**
      * Loads configuration from PHP file.
+     * 
+     * PHP file must contain return statement returning associated array 
+     * which be used to fill config entries.
      * 
      * @param string $path
      * @param bool $overwrite = false
@@ -27,9 +59,7 @@ abstract class Config extends Struct implements ConfigInterface
      */
     public function loadFromPhp(string $path, $overwrite = false): void
     {
-        if (!file_exists($path)) {
-            throw new FileNotExistsException('File ' . $path . ' not exists');
-        }
+        $this->checkFileExistence($path);
         
         $config = include $path;
         if (!is_array($config) && !is_object($config)) {
@@ -54,9 +84,7 @@ abstract class Config extends Struct implements ConfigInterface
      */
     public function loadFromIni(string $path, bool $overwrite = false): void
     {
-        if (!file_exists($path)) {
-            throw new FileNotExistsException('File ' . $path . ' not exists');
-        }
+        $this->checkFileExistence($path);
         
         $arr = null;
         try {
@@ -75,6 +103,42 @@ abstract class Config extends Struct implements ConfigInterface
         }
         
         $this->loadArray($arr, $overwrite);
+    }
+    
+    /**
+     * Loads configuration from JSON file.
+     * 
+     * @param string $path
+     * @param bool $overwrite = false
+     * 
+     * @throws \PhpStrict\Config\FileNotExistsException
+     * @throws \PhpStrict\Config\BadConfigException
+     */
+    public function loadFromJson(string $path, bool $overwrite = false): void
+    {
+        $this->checkFileExistence($path);
+        
+        try {
+            $arr = get_object_vars(json_decode(file_get_contents($path)));
+        } catch (\Throwable $e) {
+            throw new BadConfigException($e->getMessage());
+        }
+        
+        $this->loadArray($arr, $overwrite);
+    }
+    
+    /**
+     * Check file existence.
+     * 
+     * @param string $path
+     * 
+     * @throws \PhpStrict\Config\FileNotExistsException
+     */
+    protected function checkFileExistence(string $path): void
+    {
+        if (!file_exists($path)) {
+            throw new FileNotExistsException('File ' . $path . ' not exists');
+        }
     }
     
     /**

@@ -16,10 +16,26 @@ use \PhpStrict\Struct\StructInterface;
  */
 interface ConfigInterface extends StructInterface
 {
+    public const EXT_PHP = ['php'];
+    public const EXT_INI = ['ini', 'cfg', 'config', 'env'];
+    public const EXT_JSON = ['json'];
+    
+    /**
+     * Loads configuration from file. Polymorphic behaviour depends on file extension.
+     * 
+     * @param string $path              path to file
+     * @param bool $overwrite = false   overwrite existings configuration entries
+     * 
+     * @throws \PhpStrict\Config\FileTypeNotSupportedException
+     * @throws \PhpStrict\Config\FileNotExistsException
+     * @throws \PhpStrict\Config\BadConfigException
+     */
+    public function loadFromFile(string $path, bool $overwrite = false): void;
+    
     /**
      * Loads configuration from PHP file.
      * 
-     * @param string $path              path to INI file
+     * @param string $path              path to file
      * @param bool $overwrite = false   overwrite existings configuration entries
      * 
      * @throws \PhpStrict\Config\FileNotExistsException
@@ -30,11 +46,22 @@ interface ConfigInterface extends StructInterface
     /**
      * Loads configuration from INI file.
      * 
-     * @param string $path              path to INI file
+     * @param string $path              path to file
      * @param bool $overwrite = false   overwrite existings configuration entries
      * 
      * @throws \PhpStrict\Config\FileNotExistsException
      * @throws \PhpStrict\Config\BadConfigException
      */
     public function loadFromIni(string $path, bool $overwrite = false): void;
+    
+    /**
+     * Loads configuration from JSON file.
+     * 
+     * @param string $path              path to file
+     * @param bool $overwrite = false   overwrite existings configuration entries
+     * 
+     * @throws \PhpStrict\Config\FileNotExistsException
+     * @throws \PhpStrict\Config\BadConfigException
+     */
+    public function loadFromJson(string $path, bool $overwrite = false): void;
 }

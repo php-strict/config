@@ -18,7 +18,7 @@ interface ConfigInterface extends StructInterface
 {
     public const EXT_PHP = ['php'];
     public const EXT_INI = ['ini', 'cfg', 'config', 'env'];
-    public const EXT_JSON = ['json'];
+    public const EXT_JSON = ['json', 'jsn', 'js'];
     
     /**
      * Loads configuration from file. Polymorphic behaviour depends on file extension.

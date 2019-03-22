@@ -30,16 +30,15 @@ abstract class Config extends Struct implements ConfigInterface
     {
         $ext = pathinfo($path, PATHINFO_EXTENSION);
         
-        switch ($ext) {
-            case static::EXT_PHP:
-                $this->loadFromPhp($path, $overwrite);
-                break;
-            case static::EXT_INI:
-                $this->loadFromIni($path, $overwrite);
-                break;
-            case static::EXT_JSON:
-                $this->loadFromJson($path, $overwrite);
-                break;
+        if (in_array($ext, static::EXT_PHP)) {
+            $this->loadFromPhp($path, $overwrite);
+            return;
+        } elseif (in_array($ext, static::EXT_INI)) {
+            $this->loadFromIni($path, $overwrite);
+            return;
+        } elseif (in_array($ext, static::EXT_JSON)) {
+            $this->loadFromJson($path, $overwrite);
+            return;
         }
         
         throw new FileTypeNotSupportedException('File ' . $path . ' type not supported');

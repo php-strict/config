@@ -59,17 +59,7 @@ abstract class Config extends Struct implements ConfigInterface
     public function loadFromPhp(string $path, $overwrite = false): void
     {
         $this->checkFileExistence($path);
-        
-        $config = include $path;
-        if (!is_array($config) && !is_object($config)) {
-            throw new BadConfigException();
-        }
-        
-        if (is_object($config)) {
-            $config = get_object_vars($config);
-        }
-        
-        $this->loadArray($config, $overwrite);
+        $this->loadArray($this->getArrayFromPhp($path), $overwrite);
     }
     
     /**
@@ -84,24 +74,7 @@ abstract class Config extends Struct implements ConfigInterface
     public function loadFromIni(string $path, bool $overwrite = false): void
     {
         $this->checkFileExistence($path);
-        
-        $arr = null;
-        try {
-            $arr = parse_ini_file($path, false, INI_SCANNER_TYPED);
-        } catch (\Throwable $e) {
-            throw new BadConfigException($e->getMessage());
-        }
-        if (!is_array($arr)) {
-            throw new BadConfigException();
-        }
-        $arr = array_change_key_case($arr, CASE_LOWER);
-        
-        $arr = [];
-        foreach ($arr as $name => $value) {
-            $arr[lcfirst(str_replace('_', '', ucwords(str_replace('.', '_', $name), '_')))] = $value;
-        }
-        
-        $this->loadArray($arr, $overwrite);
+        $this->loadArray($this->getArrayFromIni($path), $overwrite);
     }
     
     /**
@@ -116,6 +89,76 @@ abstract class Config extends Struct implements ConfigInterface
     public function loadFromJson(string $path, bool $overwrite = false): void
     {
         $this->checkFileExistence($path);
+        $this->loadArray($this->getArrayFromJson($path), $overwrite);
+    }
+    
+    /**
+     * Gets array from PHP file entries.
+     * 
+     * @param string $path
+     * 
+     * @throws \PhpStrict\Config\BadConfigException
+     * 
+     * @return array
+     */
+    protected function getArrayFromPhp(string $path): array
+    {
+        $config = include $path;
+        
+        if (!is_array($config) && !is_object($config)) {
+            throw new BadConfigException();
+        }
+        
+        if (is_object($config)) {
+            $config = get_object_vars($config);
+        }
+        
+        return $config;
+    }
+    
+    /**
+     * Gets array from INI file entries.
+     * 
+     * @param string $path
+     * 
+     * @throws \PhpStrict\Config\BadConfigException
+     * 
+     * @return array
+     */
+    protected function getArrayFromIni(string $path): array
+    {
+        $iniArr = null;
+        
+        try {
+            $iniArr = parse_ini_file($path, false, INI_SCANNER_TYPED);
+        } catch (\Throwable $e) {
+            throw new BadConfigException($e->getMessage());
+        }
+        if (!is_array($iniArr)) {
+            throw new BadConfigException();
+        }
+        $iniArr = array_change_key_case($iniArr, CASE_LOWER);
+        
+        $arr = [];
+        foreach ($iniArr as $name => $value) {
+            $arr[lcfirst(str_replace('_', '', ucwords(str_replace('.', '_', $name), '_')))] = $value;
+        }
+        
+        return $arr;
+    }
+    
+    /**
+     * Gets array from JSON file entries.
+     * 
+     * @param string $path
+     * 
+     * @throws \PhpStrict\Config\BadConfigException
+     * 
+     * @return array
+     */
+    protected function getArrayFromJson(string $path): array
+    {
+        $arr = [];
         
         try {
             $arr = get_object_vars(json_decode(file_get_contents($path)));
@@ -123,7 +166,7 @@ abstract class Config extends Struct implements ConfigInterface
             throw new BadConfigException($e->getMessage());
         }
         
-        $this->loadArray($arr, $overwrite);
+        return $arr;
     }
     
     /**

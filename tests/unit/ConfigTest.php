@@ -74,16 +74,31 @@ class ConfigTest extends \Codeception\Test\Unit
         $this->testFields($this->getFilledConfig($data), $data);
     }
     
-    public function testLoadFromFile()
+    /**
+     * @return array
+     */
+    public function testLoadFromFileData(): array
+    {
+        return [
+            ['config.php'],
+            ['config.ini'],
+            ['config.json'],
+        ];
+    }
+    
+    /**
+     * @dataProvider testLoadFromFileData
+     */
+    public function testLoadFromFile($file)
     {
         $config = new Config();
         $config->debug = false;
         $this->assertEquals(false, $config->debug);
         
-        $config->loadFromFile(__DIR__ . '/../_data/.config');
+        $config->loadFromFile(__DIR__ . '/../_data/' . $file);
         $this->assertEquals(false, $config->debug);
         
-        $config->loadFromFile(__DIR__ . '/../_data/.config', true);
+        $config->loadFromFile(__DIR__ . '/../_data/' . $file, true);
         $this->assertEquals(true, $config->debug);
     }
 }

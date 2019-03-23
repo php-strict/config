@@ -4,7 +4,7 @@
 
 Storage and loader for configuration object.
 Extends [Struct](https://github.com/php-strict/struct) functionality with loading methods.
-Allows load saved configuration from PHP or INI file.
+Allows load saved configuration from PHP, INI, JSON file.
 
 ## Requirements
 

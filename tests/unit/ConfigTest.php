@@ -73,4 +73,17 @@ class ConfigTest extends \Codeception\Test\Unit
         $data = $this->getDataArray();
         $this->testFields($this->getFilledConfig($data), $data);
     }
+    
+    public function testLoadFromFile()
+    {
+        $config = new Config();
+        $config->debug = false;
+        $this->assertEquals(false, $config->debug);
+        
+        $config->loadFromFile(__DIR__ . '/../_data/.config');
+        $this->assertEquals(false, $config->debug);
+        
+        $config->loadFromFile(__DIR__ . '/../_data/.config', true);
+        $this->assertEquals(true, $config->debug);
+    }
 }

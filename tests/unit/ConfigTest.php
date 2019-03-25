@@ -116,4 +116,33 @@ class ConfigTest extends \Codeception\Test\Unit
             }
         );
     }
+    
+    /**
+     * @return array
+     */
+    public function testLoadFromFileNotExistsData(): array
+    {
+        return [
+            ['config-not-exists.php'],
+            ['config-not-exists.ini'],
+            ['config-not-exists.json'],
+        ];
+    }
+    
+    /**
+     * @dataProvider testLoadFromFileNotExistsData
+     */
+    public function testLoadFromFileNotExists($file)
+    {
+        $config = new Config();
+        $config->debug = false;
+        $this->assertEquals(false, $config->debug);
+        
+        $this->expectedException(
+            FileNotExistsException::class, 
+            function () use ($config, $file) {
+                $config->loadFromFile(__DIR__ . '/../_data/' . $file);
+            }
+        );
+    }
 }

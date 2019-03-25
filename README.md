@@ -59,6 +59,21 @@ class AppConfig extends Config
 }
 ```
 
+Example of configuration file content:
+
+```ini
+DEBUG=true
+
+DB_SERVER=localhost
+DB_USER=root
+DB_PASSWORD=
+DB_NAME=testproject
+DB_CHARSET=utf8
+DB_TABLE_PREFIX=
+
+CACHE=true
+```
+
 Create and fill your configuration object with data from saved configuration file:
 
 ```php

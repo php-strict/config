@@ -21,8 +21,60 @@ composer require php-strict/config
 
 ## Usage
 
-```php
+Define your own application configuration class by extending Config class:
 
+```php
+use PhpStrict\Config\Config
+
+class AppConfig extends Config
+{
+    /**
+     * Project root
+     * 
+     * @var string
+     */
+    public $root = '/';
+    
+    /**
+     * Debug enable|disable
+     * 
+     * @var bool
+     */
+    public $debug = false;
+    
+    /**
+     * Database settings
+     */
+    public $dbServer = '';
+    public $dbUser = '';
+    public $dbPassword = '';
+    public $dbName = '';
+    public $dbCharset = '';
+    public $dbTablePrefix = ''
+    
+    /*
+     * another configuration fields here
+     */
+    
+}
+```
+
+Create and fill your configuration object with data from saved configuration file:
+
+```php
+$config = new AppConfig();
+$config->loadFromFile('config.ini');
+```
+
+Use configuration object fields directly on demand:
+
+```php
+mysqli::__construct(
+    $config->dbServer, 
+    $config->dbUser, 
+    $config->dbPassword, 
+    $config->dbName
+);
 ```
 
 ## Tests

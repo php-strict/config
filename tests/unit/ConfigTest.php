@@ -145,4 +145,41 @@ class ConfigTest extends \Codeception\Test\Unit
             }
         );
     }
+    
+    public function testLoadFromPhp()
+    {
+        $config = new Config();
+        $config->debug = false;
+        $this->assertEquals(false, $config->debug);
+        
+        $config->loadFromPhp(__DIR__ . '/../_data/' . 'config.php');
+        $this->assertEquals(false, $config->debug);
+        
+        $config->loadFromPhp(__DIR__ . '/../_data/' . 'config.php', true);
+        $this->assertEquals(true, $config->debug);
+        
+        $config = new Config();
+        $config->debug = false;
+        $this->assertEquals(false, $config->debug);
+        
+        $config->loadFromPhp(__DIR__ . '/../_data/' . 'config-obj.php');
+        $this->assertEquals(false, $config->debug);
+        
+        $config->loadFromPhp(__DIR__ . '/../_data/' . 'config-obj.php', true);
+        $this->assertEquals(true, $config->debug);
+        
+        $this->expectedException(
+            FileNotExistsException::class, 
+            function () use ($config) {
+                $config->loadFromPhp(__DIR__ . '/../_data/config-not-exists.php');
+            }
+        );
+        
+        $this->expectedException(
+            BadConfigException::class, 
+            function () use ($config) {
+                $config->loadFromPhp(__DIR__ . '/../_data/config.ini');
+            }
+        );
+    }
 }

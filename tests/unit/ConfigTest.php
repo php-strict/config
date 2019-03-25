@@ -2,6 +2,7 @@
 use \PhpStrict\Config\Config as AbstractConfig;
 use \PhpStrict\Config\ConfigInterface;
 use \PhpStrict\Config\FileNotExistsException;
+use \PhpStrict\Config\FileTypeNotSupportedException;
 use \PhpStrict\Config\BadConfigException;
 
 class Config extends AbstractConfig
@@ -100,5 +101,19 @@ class ConfigTest extends \Codeception\Test\Unit
         
         $config->loadFromFile(__DIR__ . '/../_data/' . $file, true);
         $this->assertEquals(true, $config->debug);
+    }
+    
+    public function testLoadFromFileNotSupported()
+    {
+        $config = new Config();
+        $config->debug = false;
+        $this->assertEquals(false, $config->debug);
+        
+        $this->expectedException(
+            FileTypeNotSupportedException::class, 
+            function () use ($config) {
+                $config->loadFromFile(__DIR__ . '/../_data/config.none');
+            }
+        );
     }
 }

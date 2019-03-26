@@ -33,7 +33,7 @@ abstract class Config implements ConfigInterface
      * @param array $config
      * @param bool $overwrite = false
      */
-    public function loadFromArray(array $config, $overwrite = false): void
+    public function loadFromArray(array $config, bool $overwrite = false): void
     {
         foreach ($config as $name => $value) {
             if (!$overwrite && property_exists($this, $name)) {
@@ -83,7 +83,7 @@ abstract class Config implements ConfigInterface
      * @throws \PhpStrict\Config\FileNotExistsException
      * @throws \PhpStrict\Config\BadConfigException
      */
-    public function loadFromPhp(string $path, $overwrite = false): void
+    public function loadFromPhp(string $path, bool $overwrite = false): void
     {
         $this->checkFileExistence($path);
         $this->loadFromArray($this->getArrayFromPhp($path), $overwrite);

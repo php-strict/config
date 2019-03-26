@@ -26,7 +26,7 @@ interface ConfigInterface
      * @param array $config             name/value entries
      * @param bool $overwrite = false   overwrite existings configuration entries
      */
-    public function loadFromArray(array $config, $overwrite = false): void;
+    public function loadFromArray(array $config, bool $overwrite = false): void;
     
     /**
      * Loads configuration from file. Polymorphic behaviour depends on file extension.

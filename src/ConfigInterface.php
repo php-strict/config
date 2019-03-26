@@ -11,16 +11,22 @@ declare(strict_types=1);
 
 namespace PhpStrict\Config;
 
-use PhpStrict\Struct\StructInterface;
-
 /**
  * Configuration interface.
  */
-interface ConfigInterface extends StructInterface
+interface ConfigInterface
 {
     public const EXT_PHP = ['php'];
     public const EXT_INI = ['ini', 'cfg', 'config', 'env'];
     public const EXT_JSON = ['json', 'jsn', 'js'];
+    
+    /**
+     * Loads configuration from array, may be used to load defaults.
+     * 
+     * @param array $config             name/value entries
+     * @param bool $overwrite = false   overwrite existings configuration entries
+     */
+    public function loadFromArray(array $config, $overwrite = false): void;
     
     /**
      * Loads configuration from file. Polymorphic behaviour depends on file extension.

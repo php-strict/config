@@ -1,7 +1,7 @@
 {
     "name": "php-strict/config",
     "type": "library",
-    "description": ".",
+    "description": "Storage and loader for configuration object.",
     "keywords": ["php","strict","config", "configuration"],
     "homepage": "https://github.com/php-strict/config",
     "license": "GPL-2.0-or-later",
@@ -13,16 +13,14 @@
         }
     ],
     "require": {
-        "php": "^7.1",
-        "php-strict/struct": "dev-master"
+        "php": "^7.1"
     },
     "require-dev": {
         "codeception/codeception": "^2.5.1"
     },
     "autoload": {
         "psr-4": {
-            "PhpStrict\\Config\\": "src/",
-            "PhpStrict\\Config\\Examples\\": "examples/"
+            "PhpStrict\\Config\\": "src/"
         }
     }
 }

@@ -3,8 +3,7 @@
 [![Software License][ico-license]](LICENSE.txt)
 
 Storage and loader for configuration object.
-Extends [Struct](https://github.com/php-strict/struct) functionality with loading methods.
-Allows load saved configuration from PHP, INI, JSON file.
+Allows be initialised with defaults and load saved configuration from PHP, INI, JSON file.
 
 ## Requirements
 

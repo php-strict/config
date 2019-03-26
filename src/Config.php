@@ -11,13 +11,38 @@ declare(strict_types=1);
 
 namespace PhpStrict\Config;
 
-use PhpStrict\Struct\Struct;
-
 /**
  * Configuration class.
  */
-abstract class Config extends Struct implements ConfigInterface
+abstract class Config implements ConfigInterface
 {
+    /**
+     * Constructor, just call loadFromArray with overwrite flag.
+     * 
+     * @param array $config
+     * @param bool $overwrite = false
+     */
+    public function __construct(array $config = [])
+    {
+        $this->loadFromArray($config, true);
+    }
+    
+    /**
+     * Loads configuration from array, may be used to load defaults.
+     * 
+     * @param array $config
+     * @param bool $overwrite = false
+     */
+    public function loadFromArray(array $config, $overwrite = false): void
+    {
+        foreach ($config as $name => $value) {
+            if (!$overwrite && property_exists($this, $name)) {
+                continue;
+            }
+            $this->$name = $value;
+        }
+    }
+    
     /**
      * Loads configuration from file. Polymorphic behaviour depends on file extension.
      * 
@@ -61,7 +86,7 @@ abstract class Config extends Struct implements ConfigInterface
     public function loadFromPhp(string $path, $overwrite = false): void
     {
         $this->checkFileExistence($path);
-        $this->loadArray($this->getArrayFromPhp($path), $overwrite);
+        $this->loadFromArray($this->getArrayFromPhp($path), $overwrite);
     }
     
     /**
@@ -76,7 +101,7 @@ abstract class Config extends Struct implements ConfigInterface
     public function loadFromIni(string $path, bool $overwrite = false): void
     {
         $this->checkFileExistence($path);
-        $this->loadArray($this->getArrayFromIni($path), $overwrite);
+        $this->loadFromArray($this->getArrayFromIni($path), $overwrite);
     }
     
     /**
@@ -91,7 +116,7 @@ abstract class Config extends Struct implements ConfigInterface
     public function loadFromJson(string $path, bool $overwrite = false): void
     {
         $this->checkFileExistence($path);
-        $this->loadArray($this->getArrayFromJson($path), $overwrite);
+        $this->loadFromArray($this->getArrayFromJson($path), $overwrite);
     }
     
     /**
@@ -182,22 +207,6 @@ abstract class Config extends Struct implements ConfigInterface
     {
         if (!file_exists($path)) {
             throw new FileNotExistsException('File ' . $path . ' not exists');
-        }
-    }
-    
-    /**
-     * Loads configuration from array.
-     * 
-     * @param array $config
-     * @param bool $overwrite = false
-     */
-    protected function loadArray(array $config, $overwrite = false): void
-    {
-        foreach ($config as $name => $value) {
-            if (!$overwrite && property_exists($this, $name)) {
-                continue;
-            }
-            $this->$name = $value;
         }
     }
 }

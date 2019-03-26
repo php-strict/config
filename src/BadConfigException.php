@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace PhpStrict\Config;
+declare(strict_types=1);
 
-use Exception;
+namespace PhpStrict\Config;
 
 class BadConfigException extends ConfigException
 {

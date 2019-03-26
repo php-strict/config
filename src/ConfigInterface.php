@@ -7,9 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+declare(strict_types=1);
+
 namespace PhpStrict\Config;
 
-use \PhpStrict\Struct\StructInterface;
+use PhpStrict\Struct\StructInterface;
 
 /**
  * Configuration interface.

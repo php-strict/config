@@ -9,7 +9,6 @@ Allows be initialised with defaults and load saved configuration from PHP, INI, 
 ## Requirements
 
 *   PHP >= 7.1
-*   php-strict/struct
 
 ## Install
 

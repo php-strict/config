@@ -158,13 +158,10 @@ abstract class Config implements ConfigInterface
         
         try {
             $iniArr = parse_ini_file($path, false, INI_SCANNER_TYPED);
+            $iniArr = array_change_key_case($iniArr, CASE_LOWER);
         } catch (\Throwable $e) {
             throw new BadConfigException($e->getMessage());
         }
-        if (!is_array($iniArr)) {
-            throw new BadConfigException();
-        }
-        $iniArr = array_change_key_case($iniArr, CASE_LOWER);
         
         $arr = [];
         foreach ($iniArr as $name => $value) {

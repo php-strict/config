@@ -130,7 +130,8 @@ abstract class Config implements ConfigInterface
     }
     
     /**
-     * Gets subconfib with fields selected by prefix.
+     * Gets subconfig with fields selected by prefix.
+     * Fields in returned subconfig named without prefix and starts from low letter.
      * 
      * @param string $prefix
      * 

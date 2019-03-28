@@ -28,6 +28,16 @@ abstract class Config implements ConfigInterface
     }
     
     /**
+     * Implementation of \Countable
+     * 
+     * @return int
+     */
+    public function count(): int
+    {
+        return count(get_object_vars($this));
+    }
+    
+    /**
      * Loads configuration from array, may be used to load defaults.
      * 
      * @param array $config

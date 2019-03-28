@@ -14,7 +14,7 @@ namespace PhpStrict\Config;
 /**
  * Configuration interface.
  */
-interface ConfigInterface
+interface ConfigInterface extends \Countable
 {
     public const EXT_PHP = ['php'];
     public const EXT_INI = ['ini', 'cfg', 'config', 'env'];

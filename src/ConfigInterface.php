@@ -72,4 +72,13 @@ interface ConfigInterface
      * @throws \PhpStrict\Config\BadConfigException
      */
     public function loadFromJson(string $path, bool $overwrite = false): void;
+    
+    /**
+     * Gets subconfib with fields selected by prefix.
+     * 
+     * @param string $prefix
+     * 
+     * @return \PhpStrict\Config\ConfigInterface
+     */
+    public function getSlice(string $prefix): ConfigInterface;
 }

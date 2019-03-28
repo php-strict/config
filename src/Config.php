@@ -120,6 +120,27 @@ abstract class Config implements ConfigInterface
     }
     
     /**
+     * Gets subconfib with fields selected by prefix.
+     * 
+     * @param string $prefix
+     * 
+     * @return \PhpStrict\Config\ConfigInterface
+     */
+    public function getSlice(string $prefix): ConfigInterface
+    {
+        $slice = [];
+        $arr = get_object_vars($this);
+        
+        foreach ($arr as $name => $value) {
+            if (0 === strpos($name, $prefix)) {
+                $slice[lcfirst($name)] = $value;
+            }
+        }
+        
+        return new class($slice) extends Config {};
+    }
+    
+    /**
      * Gets array from PHP file entries.
      * 
      * @param string $path

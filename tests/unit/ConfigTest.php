@@ -258,9 +258,9 @@ class ConfigTest extends \Codeception\Test\Unit
         ]);
         
         $configOne = $config->getSlice('prefixOne');
-        $this->assertCount(3, get_object_vars($configOne));
+        $this->assertCount(3, $configOne);
         
         $configTwo = $config->getSlice('prefixTwo');
-        $this->assertCount(4, get_object_vars($configTwo));
+        $this->assertCount(4, $configTwo);
     }
 }

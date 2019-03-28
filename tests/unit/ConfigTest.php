@@ -244,4 +244,23 @@ class ConfigTest extends \Codeception\Test\Unit
             }
         );
     }
+    
+    public function testGetSlice()
+    {
+        $config = new Config([
+            'prefixOneValueOne'     => 1,
+            'prefixOneValueTwo'     => 2,
+            'prefixOneValueThree'   => 3,
+            'prefixTwoValueOne'     => 'one',
+            'prefixTwoValueTwo'     => 'two',
+            'prefixTwoValueThree'   => 'three',
+            'prefixTwoValueFour'    => 'four',
+        ]);
+        
+        $configOne = $config->getSlice('prefixOne');
+        $this->assertCount(3, $configOne);
+        
+        $configTwo = $config->getSlice('prefixTwo');
+        $this->assertCount(4, $configTwo);
+    }
 }

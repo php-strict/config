@@ -213,4 +213,35 @@ class ConfigTest extends \Codeception\Test\Unit
             }
         );
     }
+    
+    public function testLoadFromJson()
+    {
+        $config = new Config();
+        $config->debug = false;
+        $this->assertEquals(false, $config->debug);
+        
+        $config->loadFromJson(__DIR__ . '/../_data/' . 'config.json');
+        $this->assertEquals(false, $config->debug);
+        
+        $config->loadFromJson(__DIR__ . '/../_data/' . 'config.json', true);
+        $this->assertEquals(true, $config->debug);
+        
+        $config = new Config();
+        $config->debug = false;
+        $this->assertEquals(false, $config->debug);
+        
+        $this->expectedException(
+            FileNotExistsException::class, 
+            function () use ($config) {
+                $config->loadFromJson(__DIR__ . '/../_data/config-not-exists.json');
+            }
+        );
+        
+        $this->expectedException(
+            BadConfigException::class, 
+            function () use ($config) {
+                $config->loadFromJson(__DIR__ . '/../_data/config.php');
+            }
+        );
+    }
 }

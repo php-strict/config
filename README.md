@@ -91,6 +91,19 @@ mysqli::__construct(
 );
 ```
 
+Get subconfig by fields prefix:
+
+```php
+$dbConfig = $config->getSlice('db');
+
+mysqli::__construct(
+    $dbConfig->server, 
+    $dbConfig->user, 
+    $dbConfig->password, 
+    $dbConfig->name
+);
+```
+
 ## Tests
 
 To execute the test suite, you'll need [Codeception](https://codeception.com/).

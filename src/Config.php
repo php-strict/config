@@ -140,11 +140,12 @@ abstract class Config implements ConfigInterface
     public function getSlice(string $prefix): ConfigInterface
     {
         $slice = [];
+        $prefixLen = strlen($prefix);
         $arr = get_object_vars($this);
         
         foreach ($arr as $name => $value) {
             if (0 === strpos($name, $prefix)) {
-                $slice[lcfirst($name)] = $value;
+                $slice[lcfirst(substr($name, $prefixLen))] = $value;
             }
         }
         

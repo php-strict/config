@@ -293,8 +293,15 @@ class ConfigTest extends \Codeception\Test\Unit
         
         $configOne = $config->getSlice('prefixOne');
         $this->assertCount(3, $configOne);
+        $this->assertEquals(1, $configOne->valueOne);
+        $this->assertEquals(2, $configOne->valueTwo);
+        $this->assertEquals(3, $configOne->valueThree);
         
         $configTwo = $config->getSlice('prefixTwo');
         $this->assertCount(4, $configTwo);
+        $this->assertEquals('one', $configTwo->valueOne);
+        $this->assertEquals('two', $configTwo->valueTwo);
+        $this->assertEquals('three', $configTwo->valueThree);
+        $this->assertEquals('four', $configTwo->valueFour);
     }
 }

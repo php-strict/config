@@ -75,6 +75,25 @@ class ConfigTest extends \Codeception\Test\Unit
         $this->testFields($this->getFilledConfig($data), $data);
     }
     
+    public function testCount()
+    {
+        $config = new Config();
+        $this->assertCount(6, $config);
+        
+        $config = new class([
+            'field1' => 1,
+            'field2' => '2',
+            'field3' => 3.14,
+            'field4' => true,
+            'field5' => [],
+            'field6' => null,
+            'field7' => 0,
+            'field8' => '',
+            'field9' => false,
+        ]) extends AbstractConfig {};
+        $this->assertCount(9, $config);
+    }
+    
     /**
      * @return array
      */

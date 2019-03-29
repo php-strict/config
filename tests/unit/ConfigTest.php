@@ -65,7 +65,9 @@ class ConfigTest extends \Codeception\Test\Unit
         $this->assertEquals($data['bln'], $config->bln);
         $this->assertCount(count($data['arr']), $config->arr);
         $this->assertEquals($data['arr'], $config->arr);
-        $this->assertEquals($data['arr'][1], ($config->arr)[1]);
+        if (0 < count($data['arr'])) {
+            $this->assertEquals($data['arr'][1], ($config->arr)[1]);
+        }
         $this->assertEquals($data['obj'], $config->obj);
     }
     
@@ -92,6 +94,19 @@ class ConfigTest extends \Codeception\Test\Unit
             'field9' => false,
         ]) extends AbstractConfig {};
         $this->assertCount(9, $config);
+    }
+    
+    public function testLoadFromArray()
+    {
+        $data = $this->getDataArray();
+        $config = new Config();
+        $defaults = get_object_vars($config);
+        
+        $config->loadFromArray($data);
+        $this->testFields($config, $defaults);
+        
+        $config->loadFromArray($data, true);
+        $this->testFields($config, $data);
     }
     
     /**

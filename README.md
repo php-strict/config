@@ -2,6 +2,7 @@
 
 [![Software License][ico-license]](LICENSE.txt)
 [![Build Status][ico-travis]][link-travis]
+[![codecov][ico-codecov]][link-codecov]
 
 Storage and loader for configuration object.
 Allows be initialised with defaults and load saved configuration from PHP, INI, JSON file.
@@ -115,3 +116,5 @@ vendor\bin\codecept run
 [ico-license]: https://img.shields.io/badge/license-GPL-brightgreen.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/php-strict/config/master.svg?style=flat-square
 [link-travis]: https://travis-ci.org/php-strict/config
+[ico-codecov]: https://codecov.io/gh/php-strict/config/branch/master/graph/badge.svg
+[link-codecov]: https://codecov.io/gh/php-strict/config

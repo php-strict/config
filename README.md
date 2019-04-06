@@ -3,6 +3,7 @@
 [![Software License][ico-license]](LICENSE.txt)
 [![Build Status][ico-travis]][link-travis]
 [![codecov][ico-codecov]][link-codecov]
+[![Codacy Badge][ico-codacy]][link-codacy]
 
 Storage and loader for configuration object.
 Allows be initialised with defaults and load saved configuration from PHP, INI, JSON file.
@@ -118,3 +119,5 @@ vendor\bin\codecept run
 [link-travis]: https://travis-ci.org/php-strict/config
 [ico-codecov]: https://codecov.io/gh/php-strict/config/branch/master/graph/badge.svg
 [link-codecov]: https://codecov.io/gh/php-strict/config
+[ico-codacy]: https://api.codacy.com/project/badge/Grade/9348a8df8ccf47bcb5b6c11695b7cac3
+[link-codacy]: https://www.codacy.com/app/php-strict/config?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=php-strict/config&amp;utm_campaign=Badge_Grade
